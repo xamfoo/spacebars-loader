@@ -1,0 +1,20 @@
+{
+  "name": "spacebars-loader",
+  "version": "1.0.0",
+  "description": "Work in progress!",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^3.0.1",
+    "meteor-core": "^1.2.4",
+    "meteor-blaze-tools": "^1.2.4",
+    "meteor-html-tools": "^1.2.4",
+    "meteor-htmljs": "^1.2.4",
+    "meteor-spacebars-compiler": "^1.2.4"
+  },
+  "main": "index.js",
+  "devDependencies": {}
+}
