@@ -28,13 +28,11 @@ var doHTMLScanning = function (contents, htmlScanner) {
       throw e;
   }
 
-  if (results.head)
-    console.log('head found', results.head);
-    // compileStep.appendDocument({ section: "head", data: results.head });
+  // if (results.head)
+  //   compileStep.appendDocument({ section: "head", data: results.head });
 
-  if (results.body)
-    console.log('body found', results.body);
-    // compileStep.appendDocument({ section: "body", data: results.body });
+  // if (results.body)
+  //   compileStep.appendDocument({ section: "body", data: results.body });
 
   if (results.js) {
     // var path_part = path.dirname(compileStep.inputPath);
@@ -52,6 +50,11 @@ var doHTMLScanning = function (contents, htmlScanner) {
     //   sourcePath: compileStep.inputPath,
     //   data: results.js
     // });
+    if (results.head) {
+      results.js += '\nTemplate._headString = Template._headString || "";\n';
+      results.js += '\nTemplate._headString += "' + results.head + '";\n';
+    }
+
     return results.js;
   }
   return ''; // Returns empty string if html is empty
