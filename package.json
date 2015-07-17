@@ -1,11 +1,17 @@
 {
   "name": "spacebars-loader",
-  "version": "1.0.0",
-  "description": "Work in progress!",
+  "version": "0.1.0",
+  "description": "Webpack loader plugin for Spacebars templates",
+
+  "repository" :
+  {
+    "type" : "git",
+    "url" : "https://github.com/xamfoo/spacebars-loader"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "xamfoo",
   "license": "ISC",
   "dependencies": {
     "loader-utils": "0.2.x",
