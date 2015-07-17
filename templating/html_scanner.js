@@ -1,6 +1,9 @@
 /**
  * Copied from Meteor v1.1.0.2 and exports html_scanner
  * https://github.com/meteor/meteor/tree/release/METEOR%401.1.0.2/packages/templating/plugin
+ *
+ * See modifications under heading
+ * ADD, REMOVE, MODIFY
  */
 // ADD LINES {
 var lodash = require("lodash");
@@ -26,7 +29,7 @@ html_scanner = {
 
   bodyAttributes : [],
 
-  scan: function (contents, source_name) {
+  scan: function (contents, source_name, options) {
     var rest = contents;
     var index = 0;
 
@@ -117,7 +120,7 @@ html_scanner = {
       // act on the tag
       html_scanner._handleTag(results, tagName, tagAttribs, tagContents,
                               throwParseError, contentsStartIndex,
-                              tagStartIndex);
+                              tagStartIndex, options);
 
       // advance afterwards, so that line numbers in errors are correct
       advance(end.index + end[0].length);
@@ -135,8 +138,11 @@ html_scanner = {
   },
 
   _handleTag: function (results, tag, attribs, contents, throwParseError,
-                        contentsStartIndex, tagStartIndex) {
-
+                        // contentsStartIndex, tagStartIndex) {
+                        contentsStartIndex, tagStartIndex, options) {
+    // ADD LINES }}}
+    options = options || {};
+    // }}}
     // trim the tag contents.
     // this is a courtesy and is also relied on by some unit tests.
     var m = contents.match(/^([ \t\r\n]*)([\s\S]*?)[ \t\r\n]*$/);
@@ -180,9 +186,25 @@ html_scanner = {
         var nameLiteral = JSON.stringify(name);
         var templateDotNameLiteral = JSON.stringify("Template." + name);
 
-        results.js += "\nTemplate.__checkName(" + nameLiteral + ");\n" +
-          "Template[" + nameLiteral + "] = new Template(" +
-          templateDotNameLiteral + ", " + renderFuncCode + ");\n";
+        // MODIFY {{{
+        // results.js += "\nTemplate.__checkName(" + nameLiteral + ");\n" +
+        //   "Template[" + nameLiteral + "] = new Template(" +
+        //   templateDotNameLiteral + ", " + renderFuncCode + ");\n";
+        if (!('attachGlobal' in options)) options.attachGlobal = true;
+        if (options.attachGlobal) {
+        }
+
+        results.js +=
+          '\nmodule.exports.template = new Template(' +
+          (options.templateName || templateDotNameLiteral) + ", " +
+          renderFuncCode + ");\n";
+
+        if (options.attachGlobal) {
+          results.js +=
+            "Template.__checkName(" + nameLiteral + ");\n" +
+            'Template[' + nameLiteral + '] = module.exports.template;\n';
+        }
+        // }}}
       } else {
         // <body>
         if (hasAttribs) {
