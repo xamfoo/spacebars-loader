@@ -8,6 +8,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "loader-utils": "0.2.x",
     "lodash": "^3.0.1",
     "meteor-core": "^1.2.4",
     "meteor-blaze-tools": "^1.2.4",
